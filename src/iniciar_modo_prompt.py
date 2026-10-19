@@ -4,7 +4,7 @@ from re import A
 
 def interface():
     print("======================================================================\n")
-    print("Isto e o Clanker da f1 ... \n so tem dois comandos \n insere o nome, pontos, vitorias, podios e upgrades com espaco\n ou apenas escreve: calcular para calcular com os pilotes que inseriste.\n")
+    print("Isto e o Clanker da f1 ... \n so tem dois comandos \n insere o nome, pontos, vitorias, podios e nivel dos upgrades(3-excelente, 2- bom, 1-medio) com espaco\n ou apenas escreve: calcular para calcular com os pilotes que inseriste.\n")
     print("======================================================================\n")
 
     while True: 
