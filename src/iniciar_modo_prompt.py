@@ -1,6 +1,4 @@
-
-from models import 
-
+from models import model
 
 def interface():
     print("======================================================================\n")
