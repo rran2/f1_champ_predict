@@ -1,4 +1,5 @@
 from src import iniciar_modo_prompt 
+from src.models import model
 
 def main():
     print("A ligar o motor do Clanker...\n")

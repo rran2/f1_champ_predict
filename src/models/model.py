@@ -18,9 +18,7 @@ def sigmoid_derivate(z):
 def softmax(z):
     z_estavel = z - np.max(z, axis=-1, keepdims=True) #well se o numero fosse demasiado grande tipo 500/1000, calcular e^500 é kinda lixado
                                 # logo ao subtrair o np.max nenhum numero sera maior que ele logo ja nao ha divergencias enormes
-
     exp_z = np.exp(z_estavel)
-
     return (exp_z/np.sum(exp_z, axis=-1, keepdims=True))
                                 #axis=-1 e para prevenir q o clanker nao some coluna a coluna
                                 #o keepdims e para ela nao apagar a tabela depois da soma
