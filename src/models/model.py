@@ -16,12 +16,10 @@ def sigmoid_derivate(z):
 #no max cada um tera 50% pq as percentagens somadas de todos
 #tem de ser ==100%
 def softmax(z):
-    z_estavel = z - np.max(z, axis=-1, keepdims=True) #well se o numero fosse demasiado grande tipo 500/1000, calcular e^500 é kinda lixado
+    z_estavel = z - np.max(z) #well se o numero fosse demasiado grande tipo 500/1000, calcular e^500 é kinda lixado
                                 # logo ao subtrair o np.max nenhum numero sera maior que ele logo ja nao ha divergencias enormes
     exp_z = np.exp(z_estavel)
-    return (exp_z/np.sum(exp_z, axis=-1, keepdims=True))
-                                #axis=-1 e para prevenir q o clanker nao some coluna a coluna
-                                #o keepdims e para ela nao apagar a tabela depois da soma
+    return exp_z / np.sum(exp_z)
 
 #assim a cada execucao os numeros aleatorios sao quase sempre os mesmos
 #assim os resultados nao sao sempre diferentes 
@@ -47,7 +45,9 @@ def calc_champion(dados_input, nomes_pilotos):
 
     #multiplicacao de matrizes bueda fixe
     logits = np.dot(X, W)
-
+    #inves de ficar em (N,1) fica (N,)
+    #logits = np.squeeze(logits)
+        
     #softmax doing da job
     probabilidades = softmax(logits)
     
@@ -55,9 +55,9 @@ def calc_champion(dados_input, nomes_pilotos):
     
     #enumerate vai retornar o index dos pilotos e os valores, vitorias ans shyt
     for index, valores in enumerate(dados_input):
-        print(f"\n -> {nomes_pilotos[index]} : {probabilidades[index]} \n")
+        print(f"\n -> {nomes_pilotos[index]} : {probabilidades[index]*100}% \n")
 
-    winner_idx = np.argmax(probabilidades, axis=-1)
+    winner_idx = (np.argmax(probabilidades, axis=-1))
     idx = winner_idx[0]
 
     return nomes_pilotos[idx]
