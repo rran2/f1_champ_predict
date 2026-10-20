@@ -1,5 +1,4 @@
 from src import iniciar_modo_prompt 
-from src.models.model import softmax
 
 def main():
     print("A ligar o motor do Clanker...\n")

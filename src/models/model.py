@@ -1,8 +1,6 @@
 import numpy as np
 import pandas as pd
 import os
-import iniciar_modo_prompt
-
 
 #1. dados de treino cujo sao os do ficheiro csv 
 
@@ -24,7 +22,7 @@ Y = df[champs_Y].to_numpy()
 #4. agora temos a funcao sigmoid e a sua derivada, 
 #a mesma da shrink aos dados e consoante eles tao mal ou bem aproximaos de 0(mal) e 1(bem)
 def sigmoid(z):
-    return 1/(1-np.exp(-z))
+    return 1/(1+np.exp(-z))
 
 #ja a derivada danos o caminho correto, ou seja, o desvia que a rede tem de fazer para chegar a resposta correta
 def sigmoid_derivate(z):
@@ -63,26 +61,31 @@ W = np.random.randn(4, 1)
 #zeros a 1,1 ja que como ele so cospe 1 cena, a matriz tem de ter as mesmas colunas e linhas 1por1
 bias = np.zeros((1,1))
 
-print(f"Pesos iniciais aleatorios: \n{W}\n")
-
-X = np.array(iniciar_modo_prompt.prompt_separada)
-
-print("X np.array inicializado...\n")
-
-#multiplicacao de matrizes bueda fixe
-logits = np.dot(X, W)
-
-#softmax doing da job
-probabilidades = softmax(logits)
-print(f"As probabilidades de cada piloto na corrida pelo titulo\n {probabilidades} \n")
-
-#cospe o provavel vencedor ez 
-provavel_vencedor = np.argmax(probabilidades, axis=-1)
-
 print("E com isso o favorito e provavel vencedor")
 
+def calc_champion(dados_input, nomes_pilotos):
+    X = np.array(dados_input, dtype=float)
+
+    #multiplicacao de matrizes bueda fixe
+    logits = np.dot(X, W)
+
+    #softmax doing da job
+    probabilidades = softmax(logits)
+    
+    print("As probablidades de cada piloto: ")
+    
+    #enumerate vai retornar o index dos pilotos e os valores, vitorias ans shyt
+    for index, valores in enumerate(dados_input):
+        print(f"\n -> {nomes_pilotos[index]} : {probabilidades[index]} \n")
+
+    winner_idx = np.argmax(probabilidades, axis=-1)
+    idx = winner_idx[0]
+
+    return nomes_pilotos[idx]
+    
 
 
+    
 
 
 
