@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
+import iniciar_modo_prompt
 
 
 #1. dados de treino cujo sao os do ficheiro csv 
@@ -36,13 +37,14 @@ def sigmoid_derivate(z):
 #no max cada um tera 50% pq as percentagens somadas de todos
 #tem de ser ==100%
 def softmax(z):
-    z_estavel = z - np.max(z)  #well se o numero fosse demasiado grande tipo 500/1000, calcular e^500 é kinda lixado
+    z_estavel = z - np.max(z, axis=-1, keepdims=True) #well se o numero fosse demasiado grande tipo 500/1000, calcular e^500 é kinda lixado
                                 # logo ao subtrair o np.max nenhum numero sera maior que ele logo ja nao ha divergencias enormes
 
     exp_z = np.exp(z_estavel)
 
-    return (exp_z/np.sum(exp_z))
-
+    return (exp_z/np.sum(exp_z, axis=-1, keepdims=True))
+                                #axis=-1 e para prevenir q o clanker nao some coluna a coluna
+                                #o keepdims e para ela nao apagar a tabela depois da soma
 
 #assim a cada execucao os numeros aleatorios sao quase sempre os mesmos
 #assim os resultados nao sao sempre diferentes 
@@ -56,12 +58,31 @@ print("\nNumeros aleatorios gerados....\n")
 
 #inicializa uma matriz de parametros
 #vitorias, podios, upgrades e pontos e cospe oq se quer se é campeao ou nao(0 ou 1)
-pesos = np.random.randn(4, 1)
+W = np.random.randn(4, 1)
 
 #zeros a 1,1 ja que como ele so cospe 1 cena, a matriz tem de ter as mesmas colunas e linhas 1por1
 bias = np.zeros((1,1))
 
-print(f"Pesos iniciais aleatorios: \n{pesos}\n")
+print(f"Pesos iniciais aleatorios: \n{W}\n")
+
+X = np.array(iniciar_modo_prompt.prompt_separada)
+
+print("X np.array inicializado...\n")
+
+#multiplicacao de matrizes bueda fixe
+logits = np.dot(X, W)
+
+#softmax doing da job
+probabilidades = softmax(logits)
+print(f"As probabilidades de cada piloto na corrida pelo titulo\n {probabilidades} \n")
+
+#cospe o provavel vencedor ez 
+provavel_vencedor = np.argmax(probabilidades, axis=-1)
+
+print("E com isso o favorito e provavel vencedor")
+
+
+
 
 
 
