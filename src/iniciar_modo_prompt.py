@@ -6,24 +6,31 @@ def interface():
     print("======================================================================\n")
 
 dados = []
-prompt_separada = []
 pilot_names = []
 
 while True:
     prompt= input("Tu (>): ")
 
     if(prompt == "calcular"):
-        dados += list(map(int, prompt_separada))
-        
-        model.calc_champion(dados, pilot_names)
+        if(len(pilot_names)==0):
+            print("Nao foi inserido piloto nenhum!")
+            continue
 
-        print(f"====================\n E o provavel vencedor será {champ}\n ====================\n")
+        champion = model.calc_champion(dados, pilot_names)
+        print(f"====================\n E o provavel vencedor será -> {champion}\n ====================\n")
+
+    prompt_separada = prompt.split()
+
+    if(len(prompt_separada)<5):
+        print("ERRO: tens de inserir o nome, pontos, vitorias, podios e upgrades...\n")
+        continue
         
     #tirar o nome da prompt e mete lo isolado pq depois o array com os dados
     #vai ser usado nas matrizes 
-    prompt_separada = prompt.split()
     nome_removido = prompt_separada.pop(0)           
     pilot_names.append(nome_removido)
+    valores_numericos = list(map(int, prompt_separada))
+    dados.append(valores_numericos)
             
     print("Os seguintes pilotos foram processados: \n")
     for names in pilot_names:
