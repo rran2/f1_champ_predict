@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import model
+import torch
 
 #1. dados de treino cujo sao os do ficheiro csv 
 
