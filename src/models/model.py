@@ -1,4 +1,3 @@
-import numpy as np
 import torch 
 import torch.nn as nn
 
@@ -11,8 +10,8 @@ class F1Predictor(torch.nn.Module):
     
     def forward(self, z):
         logits = self.linear(z).squeeze(-1)
-        soft = nn.Softmax()
-        return soft(logits, dim = 0)
+        soft = nn.Softmax(dim = 0)
+        return soft(logits)
     
 torch.manual_seed(42)
 print("\nSeed inicializada (42) ...")
@@ -28,7 +27,6 @@ def calc_champion(tensor_dados, nomes_pilotos):
         print(f"\n -> {nomes_pilotos[index]} : {probabilidades[index]*100:.2f}% \n")
     
     winner_idx  = torch.argmax(probabilidades).item()
-    
     return nomes_pilotos[winner_idx]
     
 
